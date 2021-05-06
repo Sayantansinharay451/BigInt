@@ -15,7 +15,9 @@ class BigInt {
 
     BigInt(const char *);
 
-    void operator=(const BigInt);
+    BigInt(const BigInt &);
+
+    BigInt &operator=(const BigInt);
 
     BigInt &operator+=(BigInt);
 
