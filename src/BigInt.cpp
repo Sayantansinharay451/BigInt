@@ -46,6 +46,8 @@ void BigInt::setDigit(const size_t _pos, const size_t _val)
 
 bool BigInt::getSign() const { return this->_signed; }
 
+void BigInt::setSign(bool _sign) { this->_signed = _sign; }
+
 std::ostream &operator<<(std::ostream &out, const BigInt &output)
 {
     if (output.getSign())
@@ -69,6 +71,7 @@ BigInt operator+(BigInt lhs, BigInt rhs)
 BigInt &BigInt::operator+=(BigInt rhs)
 {
     if (rhs.getSign()) {
+        rhs.setSign(false);
         *this -= rhs;
         return *this;
     }
@@ -111,12 +114,12 @@ BigInt &BigInt::operator-=(BigInt rhs)
     }
     if (this->size() < rhs.size()) {
         std::swap(*this, rhs);
-        this->_signed = true;
+        this->setSign(true);
     }
     else if (this->size() == rhs.size()) {
         if (this->getDigit(0) < rhs.getDigit(0)) {
             std::swap(*this, rhs);
-            this->_signed = true;
+            this->setSign(true);
         }
     }
     std::reverse(this->big_int.begin(), this->big_int.end());

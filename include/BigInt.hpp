@@ -18,6 +18,8 @@ class BigInt {
 
     bool getSign() const;
 
+    void setSign(bool);
+
   public:
     BigInt(void);
 
