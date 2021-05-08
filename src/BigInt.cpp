@@ -2,209 +2,211 @@
 // for debuging
 #include <iostream>
 
-BigInt::BigInt(void)
+BigInt::BigInt()
     : BigInt("0")
 {
     this->_signed = false;
 }
 
-BigInt::BigInt(const char* ch)
-    : big_int(ch)
+BigInt::BigInt(const char* __ch)
+    : _bigInt(__ch)
 {
-    if (this->big_int[0] == '-') {
-        this->setSign(true);
-        this->big_int.erase(0, 1);
+    if (this->_bigInt[0] == '-') {
+        this->_setSign(true);
+        this->_bigInt.erase(0, 1);
     }
     else
-        this->setSign(false);
+        this->_setSign(false);
 }
 
-BigInt::BigInt(const BigInt& _bigInt)
+BigInt::BigInt(const BigInt& r__)
 {
-    this->big_int = _bigInt.big_int;
-    this->_signed = _bigInt.getSign();
+    this->_bigInt = r__._bigInt;
+    this->_signed = r__._getSign();
 }
 
-BigInt::BigInt(const intmax_t __val)
-    : big_int(std::to_string(abs(__val)))
+BigInt::BigInt(const intmax_t val__)
+    : _bigInt(std::to_string(abs(val__)))
 {
-    if (__val < 0)
-        this->setSign(true);
+    if (val__ < 0)
+        this->_setSign(true);
     else
-        this->setSign(false);
+        this->_setSign(false);
 }
 
-void BigInt::swap(BigInt& __l, BigInt& __r)
+void BigInt::swap(BigInt& l__, BigInt& r__)
 {
-    BigInt temp = __l;
-    __l = __r;
-    __r = temp;
+    BigInt temp = l__;
+    l__ = r__;
+    r__ = temp;
 }
-
+// hu
 BigInt& BigInt::operator-()
 {
     this->_signed = this->_signed ^ 1;
     return *this;
 }
 
-BigInt& BigInt::operator=(const BigInt __lhs)
+BigInt& BigInt::operator=(const BigInt r__)
 {
-    this->big_int = __lhs.big_int;
-    this->setSign(__lhs.getSign());
+    this->_bigInt = r__._bigInt;
+    this->_setSign(r__._getSign());
     return *this;
 }
 
-size_t BigInt::size() const { return this->big_int.size(); }
+size_t BigInt::size() const { return this->_bigInt.size(); }
 
-size_t BigInt::getDigit(const size_t __pos) const
+size_t BigInt::_getDigit(const size_t pos__) const
 {
-    return (this->big_int[__pos] - '0');
+    return (this->_bigInt[pos__] - '0');
 }
 
-void BigInt::setDigit(const size_t __pos, const short __val)
+void BigInt::_setDigit(const size_t pos__, const short val__)
 {
-    this->big_int[__pos] = ('0' + __val);
+    this->_bigInt[pos__] = ('0' + val__);
 }
 
-bool BigInt::getSign() const { return this->_signed; }
+bool BigInt::_getSign() const { return this->_signed; }
 
-void BigInt::setSign(bool _sign) { this->_signed = _sign; }
+void BigInt::_setSign(bool sign__) { this->_signed = sign__; }
 
-std::ostream& operator<<(std::ostream& out, const BigInt& output)
+std::ostream& operator<<(std::ostream& out, const BigInt& o__)
 {
-    if (output.getSign())
+    if (o__._getSign())
         out << "-";
-    out << output.big_int;
+    out << o__._bigInt;
     return out;
 }
 
-std::istream& operator>>(std::istream& in, BigInt& input)
+std::istream& operator>>(std::istream& in, BigInt& i__)
 {
-    in >> input.big_int;
+    in >> i__._bigInt;
     return in;
 }
-// Note Addition
-BigInt operator+(BigInt __lhs, BigInt __rhs)
+
+//SECTION : Addition
+
+BigInt operator+(BigInt l__, BigInt r__)
 {
-    __lhs += __rhs;
-    return __lhs;
+    l__ += r__;
+    return l__;
 }
 
-BigInt& BigInt::operator+=(BigInt __rhs)
+BigInt& BigInt::operator+=(BigInt r__)
 {
-    if (this->getSign())
-        swap(*this, __rhs);
-    if (__rhs.getSign()) {
-        __rhs.setSign(false);
-        *this -= __rhs;
+    if (this->_getSign())
+        swap(*this, r__);
+    if (r__._getSign()) {
+        r__._setSign(false);
+        *this -= r__;
         return *this;
     }
-    if (this->size() < __rhs.size())
-        swap(*this, __rhs);
-    std::reverse(__rhs.big_int.begin(), __rhs.big_int.end());
-    std::reverse(big_int.begin(), big_int.end());
-    size_t len = std::min(__rhs.size(), this->size());
+    if (this->size() < r__.size())
+        swap(*this, r__);
+    std::reverse(r__._bigInt.begin(), r__._bigInt.end());
+    std::reverse(_bigInt.begin(), _bigInt.end());
+    size_t len = std::min(r__.size(), this->size());
     size_t iterator = 0, carry = 0, digit = 0;
     for (; iterator <= len - 1; iterator += 1) {
-        digit = __rhs.getDigit(iterator) + this->getDigit(iterator) + carry;
+        digit = r__._getDigit(iterator) + this->_getDigit(iterator) + carry;
         carry = digit / 10;
         digit %= 10;
-        this->setDigit(iterator, digit);
+        this->_setDigit(iterator, digit);
     }
     while (carry && this->size() > iterator) {
-        digit = this->getDigit(iterator) + carry;
+        digit = this->_getDigit(iterator) + carry;
         carry = int(digit / 10);
         digit %= 10;
-        this->setDigit(iterator, digit);
+        this->_setDigit(iterator, digit);
         iterator += 1;
     }
     if (carry)
-        this->big_int.push_back(('0' + carry));
-    std::reverse(this->big_int.begin(), this->big_int.end());
+        this->_bigInt.push_back(('0' + carry));
+    std::reverse(this->_bigInt.begin(), this->_bigInt.end());
     return *this;
 }
 
-BigInt& BigInt::operator+=(intmax_t __rhs)
+BigInt& BigInt::operator+=(intmax_t r__)
 {
-    BigInt rhs = __rhs;
+    BigInt rhs = r__;
     *this += rhs;
     return *this;
 }
 
-BigInt operator+(BigInt __lhs, intmax_t __rhs)
+BigInt operator+(BigInt l__, intmax_t r__)
 {
-    __lhs += __rhs;
-    return __lhs;
+    l__ += r__;
+    return l__;
 }
 
-// Note: Substaction
+// SECTION: Substaction
 BigInt
-operator-(BigInt __lhs, BigInt __rhs)
+operator-(BigInt l__, BigInt r__)
 {
-    __lhs -= __rhs;
-    return __lhs;
+    l__ -= r__;
+    return l__;
 }
 
-BigInt& BigInt::operator-=(BigInt __rhs)
+BigInt& BigInt::operator-=(BigInt r__)
 {
-    if (__rhs.getSign()) {
-        *this += __rhs;
+    if (r__._getSign()) {
+        *this += r__;
         return *this;
     }
-    if (this->size() < __rhs.size()) {
-        swap(*this, __rhs);
-        this->setSign(true);
+    if (this->size() < r__.size()) {
+        swap(*this, r__);
+        this->_setSign(true);
     }
-    else if (this->size() == __rhs.size()) {
-        if (this->getDigit(0) < __rhs.getDigit(0)) {
-            swap(*this, __rhs);
-            this->setSign(true);
+    else if (this->size() == r__.size()) {
+        if (this->_getDigit(0) < r__._getDigit(0)) {
+            swap(*this, r__);
+            this->_setSign(true);
         }
     }
-    std::reverse(this->big_int.begin(), this->big_int.end());
-    std::reverse(__rhs.big_int.begin(), __rhs.big_int.end());
-    size_t len = std::min(this->size(), __rhs.size());
+    std::reverse(this->_bigInt.begin(), this->_bigInt.end());
+    std::reverse(r__._bigInt.begin(), r__._bigInt.end());
+    size_t len = std::min(this->size(), r__.size());
     size_t borrow = 0, iterator = 0;
     signed short digit = 0;
     for (; iterator <= len - 1; iterator += 1) {
-        digit = this->getDigit(iterator) - __rhs.getDigit(iterator);
+        digit = this->_getDigit(iterator) - r__._getDigit(iterator);
         if (digit < 0) {
             borrow = 10;
             size_t it = iterator + 1;
             while (it < this->size()) {
-                short newDigit = this->getDigit(it) - 1;
+                short newDigit = this->_getDigit(it) - 1;
                 if (newDigit >= 0) {
-                    this->setDigit(it, newDigit);
+                    this->_setDigit(it, newDigit);
                     break;
                 }
                 else {
-                    this->setDigit(it, 9);
+                    this->_setDigit(it, 9);
                 }
                 it++;
             }
-            if (this->big_int[this->size() - 1] == '0') {
-                this->big_int.pop_back();
+            if (this->_bigInt[this->size() - 1] == '0') {
+                this->_bigInt.pop_back();
             }
         }
         digit += borrow;
-        this->setDigit(iterator, digit);
+        this->_setDigit(iterator, digit);
         borrow = 0;
     }
-    std::reverse(this->big_int.begin(), this->big_int.end());
+    std::reverse(this->_bigInt.begin(), this->_bigInt.end());
     return *this;
 }
 
-BigInt& BigInt::operator-=(intmax_t __rhs)
+BigInt& BigInt::operator-=(intmax_t r__)
 {
-    BigInt rhs = __rhs;
+    BigInt rhs = r__;
     *this -= rhs;
     return *this;
 }
 
-BigInt operator-(BigInt __lhs, intmax_t __rhs)
+BigInt operator-(BigInt l__, intmax_t r__)
 {
-    __lhs -= __rhs;
-    return __lhs;
+    l__ -= r__;
+    return l__;
 }
 
 BigInt::~BigInt() { }
