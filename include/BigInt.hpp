@@ -1,60 +1,140 @@
+/**
+ * @file BigInt.hpp
+ * @author Sayantan Sinharay (s.sinharay.coder451@gmail.com)
+ * @brief A c++ header file to handel big integers 
+ * @version 0.1
+ * @date 2021-05-08
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #pragma once
 
 #include <algorithm>
 #include <stdint.h>
 #include <string>
-
-#define BIG_INT(X) #X
-
+/**
+ * @brief Macro to convert integer literals to string literals.
+ * 
+ * @param X__ Integer value.
+ * @return const char*.
+ *
+ * @n The @a X__ is stringize.
+ */
+#define BIG_INT(X__) (#X__)
+/**
+ * @class BigInt BigInt.hpp 
+ * @brief BigInt Class to handel Big Integer.
+ * 
+ * @tparam ch__ Charecter array.
+ * @tparam val__ Integer value.
+ * @tparam str__ String of Big Integer operations.
+ * 
+ * @n Only @c + and @c - operators avaliable now.
+ */
 class BigInt {
+    /**TODO 
+	 * -> *, /, % operators.
+	 * -> Math fuctions - pow (_bigInt,_bigInt), factorial(_bigInt).
+	 * -> Feature - take input from file.
+	 * */
 
-private:
-    std::string big_int;
-
+    std::string _bigInt;
+    /// tells the value is signed or not.
     bool _signed;
 
-    size_t getDigit(const size_t) const;
+    //Utility Funtions.
 
-    void setDigit(const size_t, const short);
+    void _setDigit(const size_t, const short);
 
-    bool getSign() const;
+    size_t _getDigit(const size_t) const;
 
-    void setSign(bool);
+    void _setSign(bool);
+
+    bool _getSign() const;
 
 public:
+    //Costructors
+    /**
+	 * @brief Default Constructor.
+	 */
     BigInt(void);
 
-    BigInt(const char*);
+    /**
+	 * @brief Construct BigInt from a C-style charecter array.
+	 * 
+	 * @param ch__ Costant charecter array.
+	 */
+    BigInt(const char* ch__);
 
-    BigInt(const BigInt&);
+    /**
+	 * @brief Construct BigInt from Integer value.
+	 * 
+	 * @param val__ Integer value.
+	 */
+    BigInt(const intmax_t val__);
 
-    BigInt(const intmax_t);
+    /**
+	 * @brief Copy Constructor.
+	 * 
+	 * @param r__ BigInt Object to be copied.
+	 */
+    BigInt(const BigInt& r__);
 
-    BigInt& operator=(const BigInt);
+    /**
+	 * @brief Assignment operator. 
+	 * 
+	 * @param r__ BigInt Object to assign.
+	 * @return BigInt& 
+	 */
+    BigInt& operator=(const BigInt r__);
 
-    friend std::ostream& operator<<(std::ostream&, const BigInt&);
+    /// Output stream for BigInt
+    friend std::ostream& operator<<(std::ostream& out, const BigInt& o__);
 
-    friend std::istream& operator>>(std::istream&, BigInt&);
+    /// Input stream for BigInt
+    friend std::istream& operator>>(std::istream& in, BigInt& i__);
 
-    size_t size() const;
-
+    /**
+	 * @brief Negation of a BigInt Object
+	 */
     BigInt& operator-();
 
-    BigInt& operator+=(BigInt);
+    // Addition Section
 
-    BigInt& operator+=(intmax_t);
+    /**
+     * @brief Addition assignment operator.
+	 * 
+     * @param r__ BigInt Object.
+     */
+    BigInt& operator+=(BigInt r__);
+
+    /**
+	 * @brief Addition operator.
+	 * 
+	 * @param l__ left side of the operator.
+	 * @param r__  right side of the operator.
+	 */
+    friend BigInt operator+(BigInt l__, BigInt r__);
+
+    /**
+	 * @brief Addition assignment operator of Integers.
+	 */
+    BigInt& operator+=(intmax_t r__);
+
+    friend BigInt operator+(BigInt l__, intmax_t);
 
     BigInt& operator-=(BigInt);
 
     BigInt& operator-=(intmax_t);
 
+    BigInt& operator[](size_t);
+
     BigInt& operator*=(BigInt);
-    // TODO operator* && operator/
+
     BigInt& operator/=(BigInt);
 
-    friend BigInt operator+(BigInt, BigInt);
-
-    friend BigInt operator+(BigInt, intmax_t);
+    friend BigInt operator-(BigInt, intmax_t);
 
     friend BigInt operator-(BigInt, BigInt);
 
@@ -63,6 +143,7 @@ public:
     friend BigInt operator/(BigInt, BigInt);
 
     void swap(BigInt&, BigInt&);
+    size_t size() const;
 
     ~BigInt();
 };
