@@ -100,7 +100,7 @@ public:
 	 */
     BigInt& operator-();
 
-    // Addition Section
+    /// SECTION Addition
 
     /**
      * @brief Addition assignment operator.
@@ -112,37 +112,77 @@ public:
     /**
 	 * @brief Addition operator.
 	 * 
-	 * @param l__ left side of the operator.
-	 * @param r__  right side of the operator.
+	 * @param l__ left side value of the operator.
+	 * @param r__  right side value of the operator.
 	 */
     friend BigInt operator+(BigInt l__, BigInt r__);
 
     /**
-	 * @brief Addition assignment operator of Integers.
+	 * @brief Addition assignment operator of Integers and BigInt.
+	 * @param r__ Integer value.
 	 */
     BigInt& operator+=(intmax_t r__);
 
-    friend BigInt operator+(BigInt l__, intmax_t);
+    /**
+	 * @brief Addition operator of Integers and BigInt.
+	 * 
+	 * @param l__ left side value of the operator.
+	 * @param r__  right side value of the operator.
+	 */
+    friend BigInt operator+(BigInt l__, intmax_t r__);
 
-    BigInt& operator-=(BigInt);
+    /// SECTION Substraction
 
-    BigInt& operator-=(intmax_t);
+    /**
+     * @brief Substraction assignment operator.
+	 * 
+     * @param r__ BigInt Object.
+     */
+    BigInt& operator-=(BigInt r__);
 
-    BigInt& operator[](size_t);
+    /**
+	 * @brief Substraction operator.
+	 * 
+	 * @param l__ left side value of the operator.
+	 * @param r__  right side value of the operator.
+	 */
+    friend BigInt operator-(BigInt l__, BigInt r__);
 
-    BigInt& operator*=(BigInt);
+    /**
+	 * @brief Substraction assignment operator of Integers and BigInt.
+	 * @param r__ Integer value.
+	 */
+    BigInt& operator-=(intmax_t r__);
 
-    BigInt& operator/=(BigInt);
+    /**
+	 * @brief Substraction operator of Integers and BigInt.
+	 * 
+	 * @param l__ left side value of the operator.
+	 * @param r__  right side value of the operator.
+	 */
+    friend BigInt operator-(BigInt l__, intmax_t r__);
 
-    friend BigInt operator-(BigInt, intmax_t);
+    /// TODO
+    // BigInt& operator[](size_t r__);
 
-    friend BigInt operator-(BigInt, BigInt);
+    // BigInt& operator*=(BigInt r__);
 
-    friend BigInt operator*(BigInt, BigInt);
+    // BigInt& operator/=(BigInt r__);
 
-    friend BigInt operator/(BigInt, BigInt);
+    // friend BigInt operator*(BigInt, BigInt);
 
-    void swap(BigInt&, BigInt&);
+    // friend BigInt operator/(BigInt, BigInt);
+
+    /// SECTION Public methods
+
+    /**
+	 * @brief Swaps two BigInt objects.
+	 */
+    void swap(BigInt& l__, BigInt& r__);
+
+    /**
+	 * @brief Returns the size of the BigInt (1-based indexing)
+	 */
     size_t size() const;
 
     ~BigInt();
