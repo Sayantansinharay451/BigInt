@@ -37,13 +37,14 @@ class BigInt {
 	 * -> *, /, % operators.
 	 * -> Math fuctions - pow (_bigInt,_bigInt), factorial(_bigInt).
 	 * -> Feature - take input from file.
+	 * -> Write an exception handeling class. (err)
 	 * */
 
     std::string _bigInt;
     /// tells the value is signed or not.
     bool _signed;
 
-    //Utility Funtions.
+    ///Utility Funtions.
 
     void _setDigit(const size_t, const short);
 
@@ -89,6 +90,7 @@ public:
 	 */
     BigInt& operator=(const BigInt r__);
 
+    // I/O operators
     /// Output stream for BigInt
     friend std::ostream& operator<<(std::ostream& out, const BigInt& o__);
 
@@ -96,7 +98,8 @@ public:
     friend std::istream& operator>>(std::istream& in, BigInt& i__);
 
     /**
-	 * @brief Negation of a BigInt Object
+	 * @brief Negation of a BigInt Object. 
+	 * @n Makes the BigInt Object Negative if positive and vice-versa.
 	 */
     BigInt& operator-();
 

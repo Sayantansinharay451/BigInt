@@ -2,12 +2,15 @@
 // for debuging
 #include <iostream>
 
+/// Constructor.
+// Default constructor.
 BigInt::BigInt()
     : BigInt("0")
 {
     this->_signed = false;
 }
 
+// Charecter array constructor.
 BigInt::BigInt(const char* __ch)
     : _bigInt(__ch)
 {
@@ -19,12 +22,7 @@ BigInt::BigInt(const char* __ch)
         this->_setSign(false);
 }
 
-BigInt::BigInt(const BigInt& r__)
-{
-    this->_bigInt = r__._bigInt;
-    this->_signed = r__._getSign();
-}
-
+// Integer value costructor.
 BigInt::BigInt(const intmax_t val__)
     : _bigInt(std::to_string(abs(val__)))
 {
@@ -34,42 +32,64 @@ BigInt::BigInt(const intmax_t val__)
         this->_setSign(false);
 }
 
-void BigInt::swap(BigInt& l__, BigInt& r__)
+// Copy constructor.
+BigInt::BigInt(const BigInt& r__)
 {
-    BigInt temp = l__;
-    l__ = r__;
-    r__ = temp;
-}
-// hu
-BigInt& BigInt::operator-()
-{
-    this->_signed = this->_signed ^ 1;
-    return *this;
+    this->_bigInt = r__._bigInt;
+    this->_signed = r__._getSign();
 }
 
+// Assignment operator.
 BigInt& BigInt::operator=(const BigInt r__)
 {
     this->_bigInt = r__._bigInt;
     this->_setSign(r__._getSign());
     return *this;
 }
-
-size_t BigInt::size() const { return this->_bigInt.size(); }
-
-size_t BigInt::_getDigit(const size_t pos__) const
+// Negation operator.
+BigInt& BigInt::operator-()
 {
-    return (this->_bigInt[pos__] - '0');
+    this->_signed = this->_signed ^ 1;
+    return *this;
 }
 
+///Private member functions.
+/**
+ * @brief Sets a digit at a position of Bigint Object.
+ * 
+ * @param pos__ Position (0 - base indexing) of the BigInt Object.
+ * @param val__ Digit to be inserted.
+ */
 void BigInt::_setDigit(const size_t pos__, const short val__)
 {
     this->_bigInt[pos__] = ('0' + val__);
 }
 
-bool BigInt::_getSign() const { return this->_signed; }
+/**
+ * @brief Returns the digit at a position of a BigInt Object.
+ * @param pos__ Position (0 - base indexing) of the  
+ */
+size_t BigInt::_getDigit(const size_t pos__) const
+{
+    return (this->_bigInt[pos__] - '0');
+}
 
+/**
+ * @brief Sets the value of BigInt Object negative or positive.
+ * 
+ * @param sign__ set True to make the value Negative.
+ */
 void BigInt::_setSign(bool sign__) { this->_signed = sign__; }
 
+/**
+ * @brief Returns True if a Number is negative.
+ * 
+ * @return true 
+ * @return false 
+ */
+bool BigInt::_getSign() const { return this->_signed; }
+
+/// I/O operators
 std::ostream& operator<<(std::ostream& out, const BigInt& o__)
 {
     if (o__._getSign())
@@ -207,6 +227,17 @@ BigInt operator-(BigInt l__, intmax_t r__)
 {
     l__ -= r__;
     return l__;
+}
+
+// Returns the size of BigInt Object.
+size_t BigInt::size() const { return this->_bigInt.size(); }
+
+// Swaps the BigInt values.
+void BigInt::swap(BigInt& l__, BigInt& r__)
+{
+    BigInt temp = l__;
+    l__ = r__;
+    r__ = temp;
 }
 
 BigInt::~BigInt() { }
