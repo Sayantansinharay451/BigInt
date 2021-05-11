@@ -44,32 +44,34 @@ class BigInt {
     /// tells the value is signed or not.
     bool _signed;
 
-    ///Utility Funtions.
+    /// SECTION Utility Funtions.
 
     void _setDigit(const size_t, const short);
 
     size_t _getDigit(const size_t) const;
+
+    static char _getDigitCh(const short);
 
     void _setSign(bool);
 
     bool _getSign() const;
 
 public:
-    //Costructors
+    // SECTION Costructors
     /**
 	 * @brief Default Constructor.
 	 */
     BigInt(void);
 
     /**
-	 * @brief Construct BigInt from a C-style charecter array.
+	 * @brief Construct a new Big Int object from from a C-style charecter array.
 	 * 
 	 * @param ch__ Costant charecter array.
 	 */
     BigInt(const char* ch__);
 
     /**
-	 * @brief Construct BigInt from Integer value.
+	 * @brief Construct a new Big Int object from from a Integer value.
 	 * 
 	 * @param val__ Integer value.
 	 */
@@ -81,6 +83,13 @@ public:
 	 * @param r__ BigInt Object to be copied.
 	 */
     BigInt(const BigInt& r__);
+
+    /**
+	 * @brief Construct a new Big Int object from a string.
+	 * 
+	 * @param str__ the BigInt in form of a string.
+	 */
+    BigInt(const std::string str__);
 
     /**
 	 * @brief Assignment operator. 
@@ -120,21 +129,7 @@ public:
 	 */
     friend BigInt operator+(BigInt l__, BigInt r__);
 
-    /**
-	 * @brief Addition assignment operator of Integers and BigInt.
-	 * @param r__ Integer value.
-	 */
-    BigInt& operator+=(intmax_t r__);
-
-    /**
-	 * @brief Addition operator of Integers and BigInt.
-	 * 
-	 * @param l__ left side value of the operator.
-	 * @param r__  right side value of the operator.
-	 */
-    friend BigInt operator+(BigInt l__, intmax_t r__);
-
-    /// SECTION Substraction
+    // SECTION Substraction
 
     /**
      * @brief Substraction assignment operator.
@@ -151,24 +146,14 @@ public:
 	 */
     friend BigInt operator-(BigInt l__, BigInt r__);
 
-    /**
-	 * @brief Substraction assignment operator of Integers and BigInt.
-	 * @param r__ Integer value.
-	 */
-    BigInt& operator-=(intmax_t r__);
+    // SECTION Multiplication
 
-    /**
-	 * @brief Substraction operator of Integers and BigInt.
-	 * 
-	 * @param l__ left side value of the operator.
-	 * @param r__  right side value of the operator.
-	 */
-    friend BigInt operator-(BigInt l__, intmax_t r__);
+    BigInt& operator*=(BigInt r__);
+
+    friend BigInt operator*(BigInt l__, BigInt r__);
 
     /// TODO
     // BigInt& operator[](size_t r__);
-
-    // BigInt& operator*=(BigInt r__);
 
     // BigInt& operator/=(BigInt r__);
 
@@ -176,17 +161,20 @@ public:
 
     // friend BigInt operator/(BigInt, BigInt);
 
-    /// SECTION Public methods
+    // SECTION Public methods
 
     /**
 	 * @brief Swaps two BigInt objects.
 	 */
-    void swap(BigInt& l__, BigInt& r__);
+    void
+    swap(BigInt& l__, BigInt& r__);
 
     /**
 	 * @brief Returns the size of the BigInt (1-based indexing)
 	 */
     size_t size() const;
+
+    void reverse();
 
     ~BigInt();
 };

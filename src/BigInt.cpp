@@ -11,32 +11,34 @@ BigInt::BigInt()
 }
 
 // Charecter array constructor.
-BigInt::BigInt(const char* __ch)
-    : _bigInt(__ch)
+BigInt::BigInt(const char* ch__)
+    : _bigInt(ch__)
+    , _signed(ch__[0] == '-')
 {
-    if (this->_bigInt[0] == '-') {
-        this->_setSign(true);
+    if (this->_getSign())
         this->_bigInt.erase(0, 1);
-    }
-    else
-        this->_setSign(false);
 }
-
 // Integer value costructor.
 BigInt::BigInt(const intmax_t val__)
     : _bigInt(std::to_string(abs(val__)))
+    , _signed(val__ < 0)
 {
-    if (val__ < 0)
-        this->_setSign(true);
-    else
-        this->_setSign(false);
 }
 
 // Copy constructor.
 BigInt::BigInt(const BigInt& r__)
+    : _bigInt(r__._bigInt)
+    , _signed(r__._getSign())
 {
-    this->_bigInt = r__._bigInt;
-    this->_signed = r__._getSign();
+}
+
+// String value constructor.
+BigInt::BigInt(const std::string str__)
+    : _bigInt(str__)
+    , _signed(str__[0] == '-')
+{
+    if (this->_getSign())
+        this->_bigInt.erase(0, 1);
 }
 
 // Assignment operator.
@@ -46,6 +48,7 @@ BigInt& BigInt::operator=(const BigInt r__)
     this->_setSign(r__._getSign());
     return *this;
 }
+
 // Negation operator.
 BigInt& BigInt::operator-()
 {
@@ -62,7 +65,12 @@ BigInt& BigInt::operator-()
  */
 void BigInt::_setDigit(const size_t pos__, const short val__)
 {
-    this->_bigInt[pos__] = ('0' + val__);
+    this->_bigInt[pos__] = _getDigitCh(val__);
+}
+
+char BigInt::_getDigitCh(const short val__)
+{
+    return ('0' + val__);
 }
 
 /**
@@ -123,8 +131,8 @@ BigInt& BigInt::operator+=(BigInt r__)
     }
     if (this->size() < r__.size())
         swap(*this, r__);
-    std::reverse(r__._bigInt.begin(), r__._bigInt.end());
-    std::reverse(_bigInt.begin(), _bigInt.end());
+    this->reverse();
+    r__.reverse();
     size_t len = std::min(r__.size(), this->size());
     size_t iterator = 0, carry = 0, digit = 0;
     for (; iterator <= len - 1; iterator += 1) {
@@ -142,26 +150,13 @@ BigInt& BigInt::operator+=(BigInt r__)
     }
     if (carry)
         this->_bigInt.push_back(('0' + carry));
-    std::reverse(this->_bigInt.begin(), this->_bigInt.end());
+    this->reverse();
     return *this;
-}
-
-BigInt& BigInt::operator+=(intmax_t r__)
-{
-    BigInt rhs = r__;
-    *this += rhs;
-    return *this;
-}
-
-BigInt operator+(BigInt l__, intmax_t r__)
-{
-    l__ += r__;
-    return l__;
 }
 
 // SECTION: Substaction
-BigInt
-operator-(BigInt l__, BigInt r__)
+
+BigInt operator-(BigInt l__, BigInt r__)
 {
     l__ -= r__;
     return l__;
@@ -183,8 +178,8 @@ BigInt& BigInt::operator-=(BigInt r__)
             this->_setSign(true);
         }
     }
-    std::reverse(this->_bigInt.begin(), this->_bigInt.end());
-    std::reverse(r__._bigInt.begin(), r__._bigInt.end());
+    this->reverse();
+    r__.reverse();
     size_t len = std::min(this->size(), r__.size());
     size_t borrow = 0, iterator = 0;
     signed short digit = 0;
@@ -212,25 +207,50 @@ BigInt& BigInt::operator-=(BigInt r__)
         this->_setDigit(iterator, digit);
         borrow = 0;
     }
-    std::reverse(this->_bigInt.begin(), this->_bigInt.end());
+    this->reverse();
     return *this;
 }
 
-BigInt& BigInt::operator-=(intmax_t r__)
+// SECTION Multiplication
+
+BigInt& BigInt::operator*=(BigInt r__)
 {
-    BigInt rhs = r__;
-    *this -= rhs;
+    size_t i = 0, len = r__.size();
+    BigInt sum, product[len], temp = *this;
+    this->reverse();
+    for (; i < len; i++) {
+        short int carry = 0;
+        size_t digit;
+        std::string s(i, '0');
+        product[i] = s;
+        for (size_t j = 0; j < this->size(); j++) {
+            carry = 0;
+            digit = this->_getDigit(j) * r__._getDigit(i) + carry;
+            carry = digit / 10;
+            digit %= 10;
+            product[i]._bigInt.push_back(_getDigitCh(digit));
+        }
+        if (carry)
+            product[i]._bigInt.push_back(_getDigitCh(carry));
+        product[i].reverse();
+        sum += product[i];
+    }
+    *this = sum;
+    this->_setSign(temp._getSign() ^ r__._getSign());
     return *this;
 }
 
-BigInt operator-(BigInt l__, intmax_t r__)
+BigInt operator*(BigInt l__, BigInt r__)
 {
-    l__ -= r__;
+    l__ *= r__;
     return l__;
 }
 
 // Returns the size of BigInt Object.
-size_t BigInt::size() const { return this->_bigInt.size(); }
+size_t BigInt::size() const
+{
+    return this->_bigInt.size();
+}
 
 // Swaps the BigInt values.
 void BigInt::swap(BigInt& l__, BigInt& r__)
@@ -238,6 +258,11 @@ void BigInt::swap(BigInt& l__, BigInt& r__)
     BigInt temp = l__;
     l__ = r__;
     r__ = temp;
+}
+
+void BigInt::reverse()
+{
+    std::reverse(this->_bigInt.begin(), this->_bigInt.end());
 }
 
 BigInt::~BigInt() { }
