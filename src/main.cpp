@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-    BigInt j = 2, k = 8, i = 5;
-    std::cout << j + k * i << std::endl;
+    BigInt j = 8, k = 123, i = 456;
+    std::cout << k * i << std::endl;
     return 0;
 }

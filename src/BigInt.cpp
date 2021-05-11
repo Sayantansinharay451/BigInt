@@ -218,20 +218,22 @@ BigInt& BigInt::operator*=(BigInt r__)
     size_t i = 0, len = r__.size();
     BigInt sum, product[len], temp = *this;
     this->reverse();
+    r__.reverse();
     for (; i < len; i++) {
         short int carry = 0;
         size_t digit;
         std::string s(i, '0');
         product[i] = s;
         for (size_t j = 0; j < this->size(); j++) {
-            carry = 0;
             digit = this->_getDigit(j) * r__._getDigit(i) + carry;
             carry = digit / 10;
             digit %= 10;
             product[i]._bigInt.push_back(_getDigitCh(digit));
         }
-        if (carry)
+        if (carry) {
             product[i]._bigInt.push_back(_getDigitCh(carry));
+            carry = 0;
+        }
         product[i].reverse();
         sum += product[i];
     }
