@@ -1,5 +1,5 @@
 /**
- * @file BigInt.hpp
+ * @file big_int.hpp
  * @author Sayantan Sinharay (s.sinharay.coder451@gmail.com)
  * @brief A c++ header file to handel big integers 
  * @version 0.1
@@ -173,7 +173,10 @@ public:
 	 * @brief Returns the size of the BigInt (1-based indexing)
 	 */
     size_t size() const;
-
+    /**
+	 * @brief Reverse a BigInt object
+	 * 
+	 */
     void reverse();
 
     ~BigInt();

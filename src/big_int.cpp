@@ -1,4 +1,4 @@
-#include "../include/BigInt.hpp"
+#include "../include/big_int.hpp"
 // for debuging
 #include <iostream>
 
@@ -143,7 +143,7 @@ BigInt& BigInt::operator+=(BigInt r__)
     }
     while (carry && this->size() > iterator) {
         digit = this->_getDigit(iterator) + carry;
-        carry = int(digit / 10);
+        carry = digit / 10;
         digit %= 10;
         this->_setDigit(iterator, digit);
         iterator += 1;
