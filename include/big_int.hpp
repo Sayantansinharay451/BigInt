@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <stdint.h>
 #include <string>
+#include <vector>
 /**
  * @brief Macro to convert integer literals to string literals.
  * 
@@ -21,6 +22,8 @@
  *
  * @n The @a X__ is stringize.
  */
+namespace bigint {
+
 #define BIG_INT(X__) (#X__)
 /**
  * @class BigInt BigInt.hpp 
@@ -56,8 +59,11 @@ class BigInt {
 
     bool _getSign() const;
 
+    static size_t _binarySearch(BigInt bi__, std::vector<BigInt> bi_arr__);
+
 public:
     // SECTION Costructors
+
     /**
 	 * @brief Default Constructor.
 	 */
@@ -78,18 +84,18 @@ public:
     BigInt(const intmax_t val__);
 
     /**
+	 * @brief Construct a new Big Int object from a string.
+	 * 
+	 * @param str__  String value.
+	 */
+    BigInt(const std::string str__);
+
+    /**
 	 * @brief Copy Constructor.
 	 * 
 	 * @param r__ BigInt Object to be copied.
 	 */
     BigInt(const BigInt& r__);
-
-    /**
-	 * @brief Construct a new Big Int object from a string.
-	 * 
-	 * @param str__ the BigInt in form of a string.
-	 */
-    BigInt(const std::string str__);
 
     /**
 	 * @brief Assignment operator. 
@@ -99,7 +105,8 @@ public:
 	 */
     BigInt& operator=(const BigInt r__);
 
-    // I/O operators
+    // SECTION I/O operators
+
     /// Output stream for BigInt
     friend std::ostream& operator<<(std::ostream& out, const BigInt& o__);
 
@@ -112,7 +119,7 @@ public:
 	 */
     BigInt& operator-();
 
-    /// SECTION Addition
+    /// SECTION Addition Operator
 
     /**
      * @brief Addition assignment operator.
@@ -129,7 +136,7 @@ public:
 	 */
     friend BigInt operator+(BigInt l__, BigInt r__);
 
-    // SECTION Substraction
+    // SECTION Substraction Operator
 
     /**
      * @brief Substraction assignment operator.
@@ -146,38 +153,51 @@ public:
 	 */
     friend BigInt operator-(BigInt l__, BigInt r__);
 
-    // SECTION Multiplication
+    /**
+	 * TODO 1. complete the comments.
+	 */
+
+    // SECTION Multiplication Operator
 
     BigInt& operator*=(BigInt r__);
 
     friend BigInt operator*(BigInt l__, BigInt r__);
 
-    /// TODO
-    // BigInt& operator[](size_t r__);
+    // SECTION Division Operator
 
-    // BigInt& operator/=(BigInt r__);
+    BigInt& operator/=(BigInt r__);
 
-    // friend BigInt operator*(BigInt, BigInt);
+    friend BigInt operator/(BigInt l__, BigInt r__);
 
-    // friend BigInt operator/(BigInt, BigInt);
+    // SECTION Comparision Operator
+
+    bool operator>(BigInt r__);
+    bool operator<(BigInt r__);
+    bool operator>=(BigInt r__);
+    bool operator<=(BigInt r__);
+    bool operator!=(BigInt r__);
+    bool operator==(BigInt l__);
 
     // SECTION Public methods
 
     /**
 	 * @brief Swaps two BigInt objects.
 	 */
-    void
-    swap(BigInt& l__, BigInt& r__);
+    void swap(BigInt& l__, BigInt& r__);
 
     /**
-	 * @brief Returns the size of the BigInt (1-based indexing)
+	 * @brief Returns the size of the BigInt (1-based indexing).
 	 */
     size_t size() const;
+
     /**
-	 * @brief Reverse a BigInt object
+	 * @brief Reverse(In-place) a BigInt object.
 	 * 
 	 */
-    void reverse();
+    BigInt reverse();
 
+    // Destructor.
     ~BigInt();
 };
+
+}
