@@ -159,22 +159,39 @@ std::istream& operator>>(std::istream& in, BigInt& i__)
 
 bool BigInt::operator>(BigInt r__)
 {
-    return (this->_bigInt > r__._bigInt);
+    if (!this->_getSign() && !r__._getSign())
+        return (this->_bigInt > r__._bigInt);
+    if (this->_getSign() && r__._getSign())
+        return (this->_bigInt < r__._bigInt);
+    if (!this->_getSign() && r__._getSign())
+        return true;
+    return false;
 }
 
 bool BigInt::operator<(BigInt r__)
 {
-    return (this->_bigInt < r__._bigInt);
+    if (!this->_getSign() && !r__._getSign())
+        return (this->_bigInt < r__._bigInt);
+    if (this->_getSign() && r__._getSign())
+        return (this->_bigInt > r__._bigInt);
+    if (this->_getSign() && !r__._getSign())
+        return true;
+    return false;
 }
 
 bool BigInt::operator==(BigInt r__)
 {
-    return (this->_bigInt == r__._bigInt && this->_getSign() == r__._getSign());
+    return (this->_bigInt == r__._bigInt && !(this->_getSign() ^ r__._getSign()));
 }
 
 bool BigInt::operator<=(BigInt r__)
 {
-    return (this->_bigInt <= r__._bigInt);
+    return (*this < r__ || *this == r__);
+}
+
+bool BigInt::operator>=(BigInt r__)
+{
+    return (*this > r__ || *this == r__);
 }
 
 // SECTION : Addition
