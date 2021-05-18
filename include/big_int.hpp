@@ -42,7 +42,7 @@ class BigInt {
 	 * -> Feature - take input from file.
 	 * -> Write an exception handeling class. (err)
 	 * */
-
+protected:
     std::string _bigInt;
     /// tells the value is signed or not.
     bool _signed;
@@ -194,7 +194,9 @@ public:
 	 * @brief Reverse(In-place) a BigInt object.
 	 * 
 	 */
-    BigInt reverse();
+    BigInt& reverse();
+
+    static void reverse(BigInt& bi__);
 
     // Destructor.
     ~BigInt();

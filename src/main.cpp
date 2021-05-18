@@ -1,9 +1,10 @@
-#include "../include/BigInt.hpp"
+#include "../include/big_int.hpp"
 #include <iostream>
 
 int main(int argc, char* argv[])
 {
-    BigInt j = 8, k = 10, i = 987654321;
-    std::cout << k + j << std::endl;
+    bigint::BigInt j = -4525, k = 11, i = 9000;
+    // bigint::BigInt::reverse(i);
+    std::cout << (j > i) << std::endl;
     return 0;
 }

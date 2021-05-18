@@ -1,4 +1,5 @@
 #include "../include/big_int.hpp"
+
 // for debuging
 #include <iostream>
 
@@ -29,13 +30,6 @@ BigInt::BigInt(const intmax_t val__)
 {
 }
 
-// Copy constructor.
-BigInt::BigInt(const BigInt& r__)
-    : _bigInt(r__._bigInt)
-    , _signed(r__._getSign())
-{
-}
-
 // String value constructor.
 BigInt::BigInt(const std::string str__)
     : _bigInt(str__)
@@ -43,6 +37,13 @@ BigInt::BigInt(const std::string str__)
 {
     if (this->_getSign())
         this->_bigInt.erase(0, 1);
+}
+
+// Copy constructor.
+BigInt::BigInt(const BigInt& r__)
+    : _bigInt(r__._bigInt)
+    , _signed(r__._getSign())
+{
 }
 
 // Assignment operator.
@@ -168,7 +169,7 @@ bool BigInt::operator<(BigInt r__)
 
 bool BigInt::operator==(BigInt r__)
 {
-    return (this->_bigInt == r__._bigInt);
+    return (this->_bigInt == r__._bigInt && this->_getSign() == r__._getSign());
 }
 
 bool BigInt::operator<=(BigInt r__)
@@ -297,6 +298,8 @@ BigInt& BigInt::operator-=(BigInt r__)
     }
 
     this->reverse();
+    while (this->_bigInt[0] == '0' && this->size() > 1)
+        this->_bigInt.erase(0, 1);
     return *this;
 }
 
@@ -312,12 +315,15 @@ BigInt& BigInt::operator*=(BigInt r__)
     r__.reverse();
 
     for (; i < len; i++) {
+
         short int carry = 0;
+
         size_t digit;
         std::string s(i, '0');
         product[i] = s;
 
         for (size_t j = 0; j < this->size(); j++) {
+
             digit = this->_getDigit(j) * r__._getDigit(i) + carry;
             carry = digit / 10;
             digit %= 10;
@@ -325,6 +331,7 @@ BigInt& BigInt::operator*=(BigInt r__)
         }
 
         if (carry) {
+
             product[i]._bigInt.push_back(_getDigitCh(carry));
             carry = 0;
         }
@@ -356,13 +363,15 @@ BigInt& BigInt::operator/=(BigInt r__)
         product[i] = r__ * i;
     }
 
-    BigInt remender, quotient;
+    BigInt remender = "\0", quotient = "\0";
     size_t len = 0, index = 0;
 
-    for (size_t i = 0; i < this->size(); i++) {
-        while (len < r__.size()) {
+    for (size_t i = 0; i <= this->size(); i++) {
+
+        if (len < r__.size()) {
+
             quotient._bigInt.push_back(_getDigitCh(0));
-            remender._bigInt.push_back(this->_getDigit(i));
+            remender._bigInt.push_back(_getDigitCh(this->_getDigit(i)));
             len++;
             continue;
         }
@@ -370,10 +379,14 @@ BigInt& BigInt::operator/=(BigInt r__)
         index = _binarySearch(remender, product);
         remender -= product[index];
         quotient._bigInt.push_back(_getDigitCh(index));
+        remender._bigInt.push_back(_getDigitCh(this->_getDigit(i)));
+        len = remender.size();
     }
 
     *this = quotient;
     this->_setSign(this->_getSign() ^ r__._getSign());
+    while (this->_bigInt[0] == '0' && this->size() > 1)
+        this->_bigInt.erase(0, 1);
     return *this;
 }
 
@@ -400,12 +413,18 @@ void BigInt::swap(BigInt& l__, BigInt& r__)
 }
 
 // Revese a BigInt object.
-BigInt BigInt::reverse()
+BigInt& BigInt::reverse()
 {
     std::reverse(this->_bigInt.begin(), this->_bigInt.end());
     return *this;
 }
 
+void BigInt::reverse(BigInt& bi__)
+{
+    bi__.reverse();
+    while (bi__._bigInt[0] == '0' && bi__.size() > 1)
+        bi__._bigInt.erase(0, 1);
+}
 // Destructor
 BigInt::~BigInt() { }
 }
