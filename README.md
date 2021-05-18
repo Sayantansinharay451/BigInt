@@ -21,7 +21,7 @@ This class can work with different operators such as `+`, `-`, `*` and `/` [***N
 ## <u>List of Content</u>
 -
 
-### Namespace is used `bigint`. 
+#### Namespace is used `bigint`. 
 
 You can include `namespace` like this:  
 
