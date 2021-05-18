@@ -380,7 +380,7 @@ BigInt& BigInt::operator/=(BigInt r__)
         product[i] = r__ * i;
     }
 
-    BigInt remender = "\0", quotient = "\0";
+    BigInt remender = "\0", quotient = "\0", temp = *this;
     size_t len = 0, index = 0;
 
     for (size_t i = 0; i <= this->size(); i++) {
@@ -399,9 +399,8 @@ BigInt& BigInt::operator/=(BigInt r__)
         remender._bigInt.push_back(_getDigitCh(this->_getDigit(i)));
         len = remender.size();
     }
-
     *this = quotient;
-    this->_setSign(this->_getSign() ^ r__._getSign());
+    this->_setSign(temp._getSign() ^ r__._getSign());
     while (this->_bigInt[0] == '0' && this->size() > 1)
         this->_bigInt.erase(0, 1);
     return *this;

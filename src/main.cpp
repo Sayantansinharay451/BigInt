@@ -3,8 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-    bigint::BigInt j = -4525, k = 11, i = -9000;
-    // bigint::BigInt::reverse(i);
-    std::cout << (j > i) << std::endl;
+    bigint::BigInt j = -4, k = 11, i = -90;
+    std::cout << i / j << std::endl;
     return 0;
 }
