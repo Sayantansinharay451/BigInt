@@ -15,12 +15,12 @@
   
     - [**Arithmetic Operators**](#arithmetic-operators)
   
-      - [**Addition**](#addition)
-      - [**Subtraction**](#subtraction)
-      - [**Multiplication**](#multiplication)
-      - [**Division**](#division)
-
----
+      1. [**Addition**](#addition)
+      2. [**Subtraction**](#subtraction)
+      3. [**Multiplication**](#multiplication)
+      4. [**Division**](#division)
+   
+    - [**Comparison Operator**]()
 
 ## **Description**
 
@@ -76,9 +76,10 @@ bigint::BigInt k = val;
 k = "567";
 // Default initialization
 bigint::BigInt n; //0
-n=j;   //456
+n=j;		  //456
 // Negative BigInt
-
+bigint::BigInt neg = -1234;
+neg = -i;
 ```
 
 ### Input/Output
@@ -138,3 +139,8 @@ bigint::BigInt j = -345;
 bigInt::Big k = i / j;
 ```
 
+#### Comparison Operator
+
+```cpp
+
+```
