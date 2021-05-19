@@ -1,12 +1,10 @@
 # Big_integer_cpp
 
-# **Big**Int
+# BigInt
 
 >**`C++` class/lib to handle integer arbitrary length.**
 
 ## List Of Content
-
----
 
 - [**Description**](#description)
 - [**Usage**](#usage)
@@ -21,6 +19,8 @@
       - [**Subtraction**](#subtraction)
       - [**Multiplication**](#multiplication)
       - [**Division**](#division)
+
+---
 
 ## **Description**
 
@@ -44,7 +44,7 @@ using namespace bigint;
 
 or can used `::` scope resolution operator to include the `namespace`.
 
-Example:-
+**Example**:-
 
 ```cpp
 bigint::BigInt i = 1234567890;
@@ -55,7 +55,7 @@ std::cout<<i; //1234567890
 
 Initialization is very simple and similar just like normal variables. In case if you cant to initialize arbitrary-sized integers you can pass it as a string or used the given `macro function` to initialize.
 
-Demonstration:-
+**Demonstration**:-
 
 ```cpp
 /**
@@ -81,11 +81,11 @@ n=j;   //456
 
 ```
 
-### **Input/Output**
+### Input/Output
 
 Input and Output are also similar to how we I/O integers.
 
-Demonstration:-
+**Demonstration**:-
 
 ```cpp
 bigint::BigInt i;
@@ -95,11 +95,9 @@ std::cin>>i;   //123456
 std::cout<<i<<std::endl; //123456
 ```
 
-### **Operators**
+### Operators
 
----
-
-#### Arithmetic operators:
+#### Arithmetic operators
 
 ##### Addition
 
