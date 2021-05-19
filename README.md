@@ -5,7 +5,7 @@
 >**`C++` class/lib to handel integer arbitrary length.**
 
 
-<font size='10'><u>Content</u></font>
+<font size='20'><u>Content</u></font>
 - [Big_integer_cpp](#big_integer_cpp)
 - [**BigInt**](#bigint)
 	- [**Description**](#description)
