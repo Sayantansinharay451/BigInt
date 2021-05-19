@@ -5,6 +5,14 @@
 >**`C++` class/lib to handel integer arbitrary length.**
 
 
+<font size='10'><u>Content</u></font>
+- [Big_integer_cpp](#big_integer_cpp)
+- [**BigInt**](#bigint)
+	- [**Description**](#description)
+	- [**Usage**](#usage)
+		- [**Initialization & Assignment**](#initialization--assignment)
+		- [**Input/Output**](#inputoutput)
+
 ## **Description**
 I have made a `c++` class that can handle both integers as well as an integer of arbitrary length.
 
@@ -17,18 +25,9 @@ This class can work with different operators such as `+`, `-`, `*` and `/` [***N
 
 ## **Usage**
 
-## <u>List of Content</u>
 
-- [Big_integer_cpp](#big_integer_cpp)
-- [**BigInt**](#bigint)
-	- [**Description**](#description)
-	- [**Usage**](#usage)
-	- [<u>List of Content</u>](#ulist-of-contentu)
-			- [Namespace is used `bigint`.](#namespace-is-used-bigint)
-		- [**Initialization & Assignment**](#initialization--assignment)
-		- [**Input/Output**](#inputoutput)
-- [Very sleepy will finish tomorrow. Bye](#very-sleepy-will-finish-tomorrow-bye)
-#### Namespace is used `bigint`. 
+
+***Note-*** Namespace used is `bigint`.
 
 You can include `namespace` like this:  
 
@@ -85,8 +84,3 @@ std::cin>>i;			//123456
 // Output
 std::cout<<i<<std::endl;	//123456
 ```
-
-
-
-
-# Very sleepy will finish tomorrow. Bye
