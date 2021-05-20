@@ -1,4 +1,4 @@
-#include "../include/big_int.hpp"
+#include "big_int.hpp"
 
 // for debuging
 #include <iostream>
