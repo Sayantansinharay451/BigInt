@@ -1,5 +1,3 @@
-# Big_integer_cpp
-
 # BigInt
 
 >**`C++` class/lib to handle integer arbitrary length.**
